@@ -1,17 +1,20 @@
-require_relative 'die.rb'
-require_relative 'display.rb'
-require_relative 'roll.rb'
+require './lib/die.rb'
+require './lib/display.rb'
+require './lib/roll.rb'
+require './lib/player.rb'
+require './lib/round.rb'
+require './lib/game.rb'
 
 include Display
 
-remaining_dice_array = []
-DICE_ONE = remaining_dice_array << Die.new
-DICE_TWO = remaining_dice_array << Die.new
-DICE_THREE = remaining_dice_array << Die.new
-DICE_FOUR = remaining_dice_array << Die.new
-DICE_FIVE = remaining_dice_array << Die.new
-DICE_SIX = remaining_dice_array << Die.new
+DICE_ONE = Die.new
+DICE_TWO = Die.new
+DICE_THREE = Die.new
+DICE_FOUR = Die.new
+DICE_FIVE = Die.new
+DICE_SIX = Die.new
 
-banked_dice_array = []
+game = Game.new
+game.play_rounds
 
-roll = Roll.new(remaining_dice_array).throw
+# roll = Roll.new(remaining_dice_array).throw

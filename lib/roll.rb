@@ -1,6 +1,7 @@
 class Roll
-  def initialize(remaining_dice)
-      @remaining_dice = remaining_dice
+  def initialize(player, remaining_dice)
+    @player = player
+    @remaining_dice = remaining_dice
   end
 
   def throw
@@ -39,6 +40,7 @@ class Roll
       puts display_out_of_range(roll.length)
       retain_dice(roll, banked)
     else
+      retain.sort! { |a,b| b <=> a }
       retain.each do |die|
         banked << roll[die.to_i - 1]
         @remaining_dice.slice!(die.to_i - 1)
@@ -65,11 +67,14 @@ class Roll
     if qualified?(banked)
       if midnight?(banked)
         puts display_midnight
+        score = 24
       else
         puts display_final_score(banked)
+        score = banked.sum - 5
       end
     else
       puts display_unqualified
+      score = -1
     end
   end
 end
