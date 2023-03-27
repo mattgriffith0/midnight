@@ -109,7 +109,11 @@ module Display
   end
 
   def display_stats(players)
-    "Placeholder"
+    puts "-----------------"
+    players.each do |player|
+      puts "#{player.name} - $#{player.purse}"
+    end
+    puts "-----------------"
   end
 
   def display_game_over

@@ -58,15 +58,12 @@ class Roll
   end
 
   def midnight?(score)
-    if score.sum - 5 == 24
-      puts display_midnight
-    end
+    score.sum - 5 == 24 ? true : false
   end
 
   def final_result(banked)
     if qualified?(banked)
       if midnight?(banked)
-        puts display_midnight
         score = 24
       else
         puts display_final_score(banked)

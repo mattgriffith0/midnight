@@ -2,7 +2,7 @@ class Round
   require_relative 'roll.rb'
 
   attr_reader :players
-  attr_accessor :high_score
+  attr_accessor :high_score, :high_scorer, :pot, :remaining_dice_array
 
   def initialize(players)
     @players = players
@@ -27,20 +27,28 @@ class Round
   end
 
   def player_rolls
-    @players.each do |player|
+    @players.each do |roller|
       reset_dice
-      puts display_player_turn(player.name)
-      player_roll = Roll.new(player, @remaining_dice_array).throw
+      puts display_player_turn(roller.name)
+      player_roll = Roll.new(roller, @remaining_dice_array).throw
+      if player_roll == 24
+        puts display_midnight
+        @players.each do |player|
+          next if player == roller
+          player.purse -= 1
+          @pot += 1
+        end
+      end
       if player_roll > @high_score
         @high_score = player_roll
-        @high_scorer[0] = player
+        @high_scorer[0] = roller
         puts display_high_score(@high_score)
       elsif player_roll == @high_score
         puts display_tie_high_score(@high_score, @high_scorer)
-        @high_scorer << player
+        @high_scorer << roller
       elsif player_roll == -1
         puts display_unqualified_fee
-        player.purse -= 1
+        roller.purse -= 1
         @pot += 1
         puts display_pot_total(@pot)
       else
@@ -55,11 +63,10 @@ class Round
       @players.rotate!(1)
       play_round
     else
-      puts display_round_win(@high_score, @high_scorer)
+      puts display_round_win(@high_score, @high_scorer, @pot)
       @high_scorer[0].purse += @pot
       @pot = 0
-      puts display_new_round_prompt
-      new_round
+      new_round(@players)
     end
   end
 
@@ -67,10 +74,11 @@ class Round
     puts display_new_round_prompt
     new = gets.chomp.downcase
     if new == "y" || new == "yes"
+      display_stats(players)
       players.rotate!(1)
       play_round
-    elsif new = "n" || new == "no"
-      puts display_stats(players)
+    elsif new == "n" || new == "no"
+      display_stats(players)
       puts display_game_over
     else
       puts "Please enter y or n"
