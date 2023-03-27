@@ -2,7 +2,7 @@ module Display
   def display_welcome
       puts "=============================================="
       puts ""
-      puts "-- Welcome to MIDNIGHT! Let's throw some bones"
+      puts "Welcome to MIDNIGHT! Let's throw some bones"
       puts ""
       puts "=============================================="
   end
@@ -114,6 +114,7 @@ module Display
 
   def display_stats(players)
     puts "-----------------"
+    puts "CURRENT WALLET TOTALS:"
     players.each do |player|
       puts "#{player.name} - $#{player.purse}"
     end

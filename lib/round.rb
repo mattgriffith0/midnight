@@ -19,8 +19,9 @@ class Round
   end
 
   private
-  
+
   def start_round
+    reset_score
     @players.each do |player|
       player.purse -= 1
       @pot += 1
@@ -86,6 +87,11 @@ class Round
       puts "Please enter y or n"
       new_round(players)
     end
+  end
+
+  def reset_score
+    @high_score = 0
+    @high_scorer = []
   end
 
   def reset_dice
