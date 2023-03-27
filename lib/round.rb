@@ -18,6 +18,8 @@ class Round
     end_round
   end
 
+  private
+  
   def start_round
     @players.each do |player|
       player.purse -= 1

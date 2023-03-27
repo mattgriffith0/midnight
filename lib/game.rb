@@ -1,7 +1,7 @@
 class Game
   def initialize
     @players = []
-    puts display_welcome
+    display_welcome
     puts display_number_of_players_prompt
     num_of_players = gets.chomp.to_i
     i = 1
